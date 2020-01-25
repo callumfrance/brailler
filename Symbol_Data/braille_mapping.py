@@ -12,13 +12,14 @@ def csvify(in_list):
     return exporter
 
 if __name__ == '__main__':
-    row_export = ['UNICODE,HEX,UNICODE_NAME,INTEGER,UNICODE_CATEGORY',]
+    row_export = ['UNICODE,HEX,UNICODE_NAME,INTEGER,SHIFTED_BINARY,UNICODE_CATEGORY',]
 
     for i in range(int('2800', 16), int('2840', 16)):
         row = [chr(i), 
                 hex(i),
                 unicodedata.name(chr(i)), 
                 i,
+                format((i - 10240), "06b"),
                 unicodedata.category(chr(i)),]
         row_export.append(csvify(row))
 
