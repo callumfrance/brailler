@@ -1,15 +1,26 @@
 from louis import translate
 
+"""
+Some possible tables:
+    en-GB-g2.ctb
+    en-gb-g1.utb
+    en-us-g1.ctb
+    en-us-g2.ctb
+
+    More at:
+        https://github.com/liblouis/liblouis/tree/master/tables
+"""
 
 def get_input(console=True, fName=None):
-    in_lines = ""
+    in_lines = list()
     if (not fName and not console) or (fName and console):
         raise ValueError("Invalid parameters to get_input()")
     elif console:
-        in_lines = [input("\nConsole lines >"),]
+        in_lines = [input("\nConsole lines >").strip(),]
     elif fName:
         with open(fName, "r") as f:
-            in_lines = f.readlines()
+            for line in f.readlines():
+                in_lines.append(line.strip())
     else:
         in_lines = ["This is a test string that can be used to write Braille.",]
 
@@ -37,7 +48,7 @@ def reader_loop():
             fName = input("\nFile Name> ")
         x = get_input(console, fName)
         for i in x:
-            y = translate_item(x)
+            y = translate_item(i)
             print_translation(y)
             pi_out_translation(y)
 
