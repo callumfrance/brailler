@@ -1,4 +1,4 @@
-from louis import translate
+from louis import translateString, backTranslateString
 
 """
 Some possible tables:
@@ -12,6 +12,8 @@ Some possible tables:
 """
 
 def get_input(console=True, fName=None):
+    """Gets an input from either console or file and returns a list of strings
+    """
     in_lines = list()
     if (not fName and not console) or (fName and console):
         raise ValueError("Invalid parameters to get_input()")
@@ -27,20 +29,27 @@ def get_input(console=True, fName=None):
     return(in_lines)
 
 
+def back_translate_item(in_str, t_tables=['unicode.dis', 'en-GB-g2.ctb']):
+    """Translates a string from braille into unicode English
+    """
+    result = backTranslateString(t_tables, in_str)
+    return(result)
+
+
 def translate_item(in_str, t_tables=['unicode.dis', 'en-GB-g2.ctb']):
-    result = translate(t_tables, in_str)
-    return(result[0])
+    """Translates a string from unicode English into braille
+    """
+    result = translateString(t_tables, in_str)
+    return(result)
 
 
 def print_translation(in_str):
     print(in_str)
 
 
-def pi_out_translation(in_str):
-    pass
-
-
 def reader_loop():
+    """The main loop that chains together multiple reading commands
+    """
     while True:
         console = choose_mode()
         fName = None
@@ -54,6 +63,9 @@ def reader_loop():
 
 
 def choose_mode():
+    """Allows user to choose between reading from a console input
+    or from a text file.
+    """
     a = input("\nChoose your mode >")
     if a == '1':
         return(True)
