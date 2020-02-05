@@ -89,7 +89,7 @@ def menu_write_file(user_path='user'):
             pass # TODO perform translations before write to file here
         elif encoding == 2:
             pass
-        with open(user_path + "/" + new_file_name, "w") as f:
+        with open(user_path + "/" + new_file_name, "x") as f:
             f.write(user_input)
 
 
