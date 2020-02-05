@@ -22,3 +22,11 @@ class View:
             ans = option_select(in_options)
 
         return(ans)
+
+
+    @staticmethod
+    def str_print(in_str):
+        """Prints a provided string
+        """
+        print("Called view.str_print")
+        print(in_str)

@@ -7,6 +7,7 @@ from os import listdir
 from os.path import isfile, isdir, join
 
 from views.view import View
+from reader.read import *
 
 # TODO possible refactor into a database value or something
 user_path = 'user'
@@ -48,7 +49,6 @@ def menu_read_file(user_path='user'):
     only_files = [f for f in listdir(user_path) if isfile(join(user_path, f))]
     print(only_files)
     view_select = view.option_select(only_files)
-    # view_select = 1
     if view_select == None: # User decided to not read any of the files
         return None
     else: # User has selected a file to read from - now determine the 'language'
@@ -58,7 +58,10 @@ def menu_read_file(user_path='user'):
                 brailleTextFile = True
             else:
                 brailleTextFile = False
-            print(first_char_test + f.read())
+            y = first_char_test + f.read()
+            x = translate_item(y)
+            view.str_print(x)
+            view.str_print(y)
     # TODO use the information gathered from this method to create an object
     #   that contains all the necessary information to read a file with
     return(file_reader_obj)
@@ -69,7 +72,6 @@ def menu(user_path='user'):
     """
     function_choice = ["Read a file", "Write a new file",]
     view_select = view.option_select(function_choice)
-    # view_select = 1
 
     if view_select == 0: # Read a file
         menu_read_file()
