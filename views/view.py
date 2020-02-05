@@ -13,7 +13,10 @@ class View:
         print("")
         for n, i in enumerate(in_options):
             print(n, ":", i)
-        ans = int(input("\n> "))
+        try:
+            ans = int(input("\n> "))
+        except ValueError: # If an bad value was provided, exit with None
+            ans = None
 
         if ans < 0 or ans > len(in_options):
             ans = option_select(in_options)

@@ -47,17 +47,18 @@ def menu_read_file(user_path='user'):
     file_reader_obj = None
     only_files = [f for f in listdir(user_path) if isfile(join(user_path, f))]
     print(only_files)
-    view_select = view.option_select(onlyfiles)
+    view_select = view.option_select(only_files)
     # view_select = 1
     if view_select == None: # User decided to not read any of the files
         return None
     else: # User has selected a file to read from - now determine the 'language'
-        with open(only_files[view_select], 'r') as f:
+        with open(user_path + "/" + only_files[view_select], 'r') as f:
             first_char_test = f.read(1)
             if ord(first_char_test) >= 10240 or ord(first_char_test) <= 10303:
                 brailleTextFile = True
             else:
                 brailleTextFile = False
+            print(first_char_test + f.read())
     # TODO use the information gathered from this method to create an object
     #   that contains all the necessary information to read a file with
     return(file_reader_obj)
