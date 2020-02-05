@@ -28,7 +28,6 @@ def setup():
             raise OSError("Could not create the user_path directory")
 
     view = View()
-    print(view)
 
 
 def teardown():
@@ -45,10 +44,11 @@ def menu_read_file(user_path='user'):
     brailleTextFile = False
     only_files = list()
     first_char_test = ''
-    file_reader_obj = None
+
     only_files = [f for f in listdir(user_path) if isfile(join(user_path, f))]
-    print(only_files)
+    view.str_print(only_files)
     view_select = view.option_select(only_files)
+
     if view_select == None: # User decided to not read any of the files
         return None
     else: # User has selected a file to read from - now determine the 'language'
@@ -62,9 +62,35 @@ def menu_read_file(user_path='user'):
             x = translate_item(y)
             view.str_print(x)
             view.str_print(y)
-    # TODO use the information gathered from this method to create an object
-    #   that contains all the necessary information to read a file with
-    return(file_reader_obj)
+
+
+def menu_write_file(user_path='user'):
+    """Allows user to create a file to write to within the user_path
+    """
+    only_files = [f for f in listdir(user_path) if isfile(join(user_path, f))]
+    
+    view.str_print("Enter a new file name to write to:")
+    new_file_name = view.str_input() # TODO handling of inner and outer folders....
+
+    encoding = view.option_select(["No text translation", 
+        "US Braille translation", 
+        "UK Braille translation", 
+        "Decide once completed",])
+
+    if new_file_name in only_files:
+        view.str_print("This file already exists")
+    else:
+        user_input = view.str_input()
+        if encoding == 3:
+            encoding = view.option_select(["No text translation", 
+                "US Braille translation", 
+                "UK Braille translation",])
+        if encoding == 1:
+            pass # TODO perform translations before write to file here
+        elif encoding == 2:
+            pass
+        with open(user_path + "/" + new_file_name, "w") as f:
+            f.write(user_input)
 
 
 def menu(user_path='user'):
@@ -76,8 +102,7 @@ def menu(user_path='user'):
     if view_select == 0: # Read a file
         menu_read_file()
     elif view_select == 1: # Write a new file
-        # TODO menu_write_file()
-        pass
+        menu_write_file()
 
     return(None)
 

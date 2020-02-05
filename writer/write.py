@@ -42,3 +42,10 @@ def int2braille(in_int):
             out_list[i] = True
         tester = tester >> 1
     return(out_list)
+
+
+def write_in(in_braille_str):
+    """Converts a string of braille characters into a string of alphabeticals
+    """
+    # reader.back_translate
+    pass
