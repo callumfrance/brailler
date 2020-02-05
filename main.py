@@ -4,12 +4,13 @@ Main
 The input-independent means of controlling the brailler program
 """
 from os import listdir
-from os.path import isfile, join
+from os.path import isfile, isdir, join
 
+from views.view import View
 
 # TODO possible refactor into a database value or something
 user_path = 'user'
-
+view = None
 
 def setup():
     """Code that should only run once when the program is launched.
@@ -18,11 +19,15 @@ def setup():
     Check that the relevant libraries have been installed.
     Check that the user_path 'user' folder exists
     """
-    # Check that the user_path 'user' folder exists
-    if not os.path.isdir(user_path):
+    global view
+
+    if not isdir(user_path): # Check that the user_path 'user' folder exists
         os.mkdir(user_path)
-        if not os.path.isdir(user_path):
+        if not isdir(user_path):
             raise OSError("Could not create the user_path directory")
+
+    view = View()
+    print(view)
 
 
 def teardown():
@@ -40,12 +45,10 @@ def menu_read_file(user_path='user'):
     only_files = list()
     first_char_test = ''
     file_reader_obj = None
-
     only_files = [f for f in listdir(user_path) if isfile(join(user_path, f))]
     print(only_files)
-    # TODO view_select = view.option_select(onlyfiles)
-    view_select = 1
-
+    view_select = view.option_select(onlyfiles)
+    # view_select = 1
     if view_select == None: # User decided to not read any of the files
         return None
     else: # User has selected a file to read from - now determine the 'language'
@@ -55,10 +58,8 @@ def menu_read_file(user_path='user'):
                 brailleTextFile = True
             else:
                 brailleTextFile = False
-    
     # TODO use the information gathered from this method to create an object
     #   that contains all the necessary information to read a file with
-
     return(file_reader_obj)
 
 
@@ -66,8 +67,8 @@ def menu(user_path='user'):
     """Allows user to choose a menu option
     """
     function_choice = ["Read a file", "Write a new file",]
-    # TODO view_select = view.option_select(function_choice)
-    view_select = 1
+    view_select = view.option_select(function_choice)
+    # view_select = 1
 
     if view_select == 0: # Read a file
         menu_read_file()
@@ -76,7 +77,6 @@ def menu(user_path='user'):
         pass
 
     return(None)
-
 
 
 def main_loop():
