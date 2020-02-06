@@ -1,4 +1,1 @@
-csv
-json
-os
-unicodedata
+python-magic
