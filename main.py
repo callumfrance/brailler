@@ -5,7 +5,7 @@ The input-independent means of controlling the brailler program
 """
 from os import listdir
 from os.path import isfile, isdir, join, normpath
-import re
+from re import search
 import magic
 
 from views.view import View
@@ -49,30 +49,41 @@ def validate_file(in_file_name, user_path='user'):
 def validate_directory(in_file_name, user_path='user'):
     """Checks that the file is located within the user_path directory
     """
+    # regex matches 'user/<alpha_numeric-Name>.<fileType>'
+    regex_str = r'^' + user_path + r'/' + r'[A-Za-z0-9_-]+' + r'.[A-Za-z]+$'
+    directoryValidate = True
     in_u_p = normpath(in_file_name)
 
-    if not in_u_p.startswith(user_path) or \
-            re.search(r'[^A-Za-z0-9_\-\\]', in_u_p):
-        return True
+    if not in_u_p.startswith(user_path):
+        view.str_print("not belong in userpath")
+        directoryValidate = False
+    elif not search(regex_str, in_u_p):
+        print("in_file_name", in_file_name, "in_u_p", in_u_p)
+        directoryValidate = False
 
-    return False
+    view.str_print(in_u_p, " ")
+    view.str_print(user_path)
+
+    print("directoryValidate", directoryValidate)
+    return directoryValidate
 
 
-def validate_file_type(in_file_name):
+def validate_file_type(in_file_name, user_path='user'):
+    fileTypeValidate = False
     mime = magic.Magic(mime=True)
     view_select_type = mime.from_buffer(user_path + "/" + in_file_name)
-    view.str_print(view_select_type)
 
     if "text/" in view_select_type:
-        return True
+        fileTypeValidate = True
 
-    return False
+    view.str_print(view_select_type)
+
+    return fileTypeValidate 
 
 
 def menu_read_file(user_path='user'):
     """Allows user to select a file to read from within the user_path
     """
-    # TODO only get text files (not binary files) -- use mimetype library
     view_select = None
     brailleTextFile = False
     only_files = list()
@@ -114,9 +125,10 @@ def menu_write_file(user_path='user'):
 
     encoding = view.option_select(options)
 
-    if new_file_name in only_files or \
-            not validate_file_type(user_path + "/" + new_file_name):
+    if new_file_name in only_files:
         view.str_print("This file already exists")
+    elif not validate_file(user_path + "/" + new_file_name):
+        view.str_print("Invalid file name provided")
     else:
         user_input = view.str_input()
         if encoding == 3:
