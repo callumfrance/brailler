@@ -1,3 +1,10 @@
+"""
+This python script creates JSON and CSV files that specify information about
+6-dot braille characters in unicode.
+
+This is a helper script that is not directly used or imported in the 
+main brailler program.
+"""
 import unicodedata
 import json
 import csv
