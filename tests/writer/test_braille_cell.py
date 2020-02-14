@@ -5,4 +5,8 @@ import pprint
 
 pprint.pprint(os.sys.path)
 
-from brailler.writer.write.braille_cell import BrailleCell
+from brailler.writer.braille_cell import BrailleCell
+
+def test_class():
+    b = BrailleCell()
+    assert b.cell == [False * 6]
