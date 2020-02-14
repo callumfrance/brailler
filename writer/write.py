@@ -16,7 +16,7 @@ How to write from braille:
 5. Turn the braille word into an english unicode word using louis.backTranslate
 6. Print, retaining whitespace deliminations
 """
-# from writer.braille_cell import BrailleCell
+import writer.braille_cell as braille_cell
 from brailler.reader.read import back_translate_item
 
 
@@ -29,28 +29,27 @@ class Writer:
         e.g. "101" --> 5
         e.g. "101101101" --> 365
         """
-        ans = 0
-        for n, i in in_binary_str:
-            ans += int(i) * (1 << n)
-        return(ans)
+        return(int(in_binary_str, 2))
 
     @staticmethod
     def int2braille(in_int):
         """Converts an integer into a braille cell by looking at its bits.
         e.g. 5 --> [True, False, True]
         """
-        if (a > 63) or (a < 0):
+        if (in_int > 63) or (in_int < 0):
             raise ValueError("Braille integers must be from 0 to 63")
-        out_cell = BrailleCell([False for i in range(6)])
+        out_cell = braille_cell.BrailleCell([False for i in range(6)])
         tester = in_int
         for i in range(6):
-            if tester % 2 == 0:
+            print("i", i, "tester", tester, out_cell.cell)
+            if tester % 2 != 0:
                 out_cell.cell[i] = True
             tester = tester >> 1
+        print(out_cell.cell)
         return(out_cell)
 
     @staticmethod
-    def braillel2binary_str(in_cell):
+    def braille2binary_str(in_cell):
         """For the cell pattern, returns the binary string representation
         """
         b_str = ""
@@ -62,14 +61,14 @@ class Writer:
     def braille2int(in_cell):
         """Converts a BrailleCell boolean list object into an integer
         """
-        return(binary_str2int(braille2binary_str(in_cell)))
+        return(Writer.binary_str2int(Writer.braille2binary_str(in_cell)))
 
     @staticmethod
     def braille2unicode(in_cell):
-        return(chr(braille2int(in_cell)))
+        return(chr(Writer.braille2int(in_cell)))
 
     @staticmethod
     def write_in(in_braille_str):
         """Converts a string of braille characters into a string of alphabeticals
         """
-        return(back_translate(in_braille_str))
+        return(back_translate_item(in_braille_str))
