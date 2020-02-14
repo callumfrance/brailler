@@ -1,3 +1,9 @@
+import sys
+
+sys.path.append('/usr/lib/python3.8/site-packages/louis')
+
+import louis
+
 from louis import translateString, backTranslateString
 
 """

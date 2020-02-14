@@ -17,7 +17,7 @@ How to write from braille:
 6. Print, retaining whitespace deliminations
 """
 # from writer.braille_cell import BrailleCell
-from reader.read import back_translate
+from brailler.reader.read import back_translate
 
 
 class Writer:

@@ -1,1 +1,2 @@
 python-magic
+git+https://github.com/liblouis/liblouis.git
