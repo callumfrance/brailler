@@ -34,7 +34,7 @@ class Writer:
     @staticmethod
     def int2braille(in_int):
         """Converts an integer into a braille cell by looking at its bits.
-        e.g. 5 --> [True, False, True]
+        e.g. 5 --> BrailleCell([False, False, False, True, False, True])
         """
         if (in_int > 63) or (in_int < 0):
             raise ValueError("Braille integers must be from 0 to 63")
@@ -43,7 +43,8 @@ class Writer:
         for i in range(6):
             print("i", i, "tester", tester, out_cell.cell)
             if tester % 2 != 0:
-                out_cell.cell[i] = True
+                # out_cell.cell[i] = True
+                out_cell.cell[6 - 1 - i] = True
             tester = tester >> 1
         print(out_cell.cell)
         return(out_cell)
@@ -53,7 +54,7 @@ class Writer:
         """For the cell pattern, returns the binary string representation
         """
         b_str = ""
-        for i in in_cell:
+        for i in in_cell.cell:
             b_str += "1" if i else "0"
         return(b_str)
 
