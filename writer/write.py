@@ -50,7 +50,7 @@ class Writer:
         for n, i in enumerate(in_binary_str[::-1]):
             if i == "1":
                 cells[n] = True
-        return(BrailleCell(cells))
+        return(braille_cell.BrailleCell(cells))
 
     @staticmethod
     def braille2binary_str(in_cell):

@@ -13,6 +13,6 @@ def test_BrailleCell_default():
     assert b.cell == [False * 6]
 
 def test_BrailleCell_braille2unicode():
-    code = [True, False, True, False, False, False]
+    code = [False, True, True, False, True, True]
     b = BrailleCell(code)
-    # assert b.braille2unicode() == '1'
+    assert b.braille2unicode() == '⠶'

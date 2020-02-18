@@ -16,7 +16,6 @@ def test_Writer_binary_str2int():
     eg2 = "001011"
     ans_eg2 = 32
 
-
     eg3 = "000000"
     ans_eg3 = 32
 
@@ -25,6 +24,34 @@ def test_Writer_binary_str2int():
     assert w.binary_str2int(eg2) == 11
     assert w.binary_str2int(eg3) == 0
 
+def test_Writer_binary_str2braille():
+    eg1 = "100000"
+    ans_eg1 = braille_cell.BrailleCell([ False, False, False, False, False, True ])
+    eg2 = "001011"
+    ans_eg2 = braille_cell.BrailleCell([ True, True, False, True, False, False ])
+    eg3 = "000000"
+    ans_eg3 = braille_cell.BrailleCell([ False for i in range(6) ])
+
+    w = write.Writer()
+    assert w.binary_str2braille(eg1).cell == ans_eg1.cell
+    assert w.binary_str2braille(eg2).cell == ans_eg2.cell
+    assert w.binary_str2braille(eg3).cell == ans_eg3.cell
+    assert w.binary_str2braille(eg1) == ans_eg1
+    assert w.binary_str2braille(eg2) == ans_eg2
+    assert w.binary_str2braille(eg3) == ans_eg3
+
+def test_Writer_braille2binary_str():
+    ans_eg1 = "100000"
+    eg1 = braille_cell.BrailleCell([ False, False, False, False, False, True ])
+    ans_eg2 = "001011"
+    eg2 = braille_cell.BrailleCell([ True, True, False, True, False, False ])
+    ans_eg3 = "000000"
+    eg3 = braille_cell.BrailleCell([ False for i in range(6) ])
+
+    w = write.Writer()
+    assert w.braille2binary_str(eg1).cell == ans_eg1.cell
+    assert w.braille2binary_str(eg2).cell == ans_eg2.cell
+    assert w.braille2binary_str(eg3).cell == ans_eg3.cell
 
 def test_Writer_int2binary_str():
     eg1 = 32
