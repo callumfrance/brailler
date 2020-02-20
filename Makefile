@@ -15,4 +15,11 @@ test:
 	export PYTHONPATH="/usr/lib/python3.8/site-packages"; \
 	python -m pytest
 
-.PHONY: test all
+coverage:
+	. venv/bin/activate; \
+	export PYTHONPATH="/usr/lib/python3.8/site-packages"; \
+	coverage run -m pytest; \
+	coverage html; \
+	xdg-open htmlcov/index.html
+
+.PHONY: test all coverage

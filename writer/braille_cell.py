@@ -1,4 +1,4 @@
-import brailler.writer.write
+import brailler.writer.write as write
 
 
 class BrailleCell:
@@ -20,7 +20,7 @@ class BrailleCell:
     def braille2unicode(self):
         """For the cell pattern, returns the unicode character representation
         """
-        return(write.Writer.braille2unicode(self.cell))
+        return(write.Writer().braille2unicode(self))
 
     def __eq__(self, other):
         if not isinstance(self, other.__class__):
