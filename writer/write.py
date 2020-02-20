@@ -104,9 +104,3 @@ class Writer:
     @staticmethod
     def braille2unicode(in_cell):
         return(chr(Writer.braille2int_uni(in_cell)))
-
-    @staticmethod
-    def write_in(in_braille_str):
-        """Converts a string of braille characters into a string of alphabeticals
-        """
-        return(read.Reader().back_translate_item(in_braille_str))

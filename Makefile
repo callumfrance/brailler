@@ -18,7 +18,6 @@ test:
 coverage:
 	. venv/bin/activate; \
 	export PYTHONPATH="/usr/lib/python3.8/site-packages"; \
-	python -m pytest; \
 	coverage run -m pytest; \
 	coverage html; \
 	xdg-open htmlcov/index.html

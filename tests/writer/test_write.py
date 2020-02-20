@@ -68,6 +68,11 @@ def test_Writer_int2binary_str():
     assert w.int2binary_str(eg2) == ans_eg2
     assert w.int2binary_str(eg3) == ans_eg3
 
+    with pytest.raises(ValueError):
+        w.int2binary_str(64)
+
+    with pytest.raises(ValueError):
+        w.int2binary_str(-1)
 
 def test_Writer_braille2binary_str():
     eg1 = braille_cell.BrailleCell([ True, False, False, False, False, False ])

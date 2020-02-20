@@ -9,7 +9,7 @@ from re import search
 import magic
 
 from views.view import View
-from reader.read import *
+from reader.read import Reader
 
 # TODO possible refactor into a database value or something
 user_path = 'user'
@@ -105,7 +105,7 @@ def menu_read_file(user_path='user'):
             else:
                 brailleTextFile = False
             y = first_char_test + f.read()
-            x = translate_item(y)
+            x = Reader().translate_item(y)
             view.str_print(x)
             view.str_print(y)
 
@@ -149,16 +149,19 @@ def menu(user_path='user'):
 
     if view_select == 0: # Read a file
         menu_read_file()
+        return(False)
     elif view_select == 1: # Write a new file
         menu_write_file()
+        return(False)
 
-    return(None)
+    return(True)
 
 
 def main_loop():
     to_exit = False
     while not to_exit:
-        menu()
+        if menu():
+            to_exit = True
 
 
 if __name__ == '__main__':
