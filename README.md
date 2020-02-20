@@ -1,6 +1,11 @@
 # brailler
 
-Maps text to braille characters.
+## Program Goals
+ The goal is to get the software to be able to:
+ 1. Take braille unicode input and write it to a new text file in alphabetical English.
+ 2. Open a text file and print out a braille unicode translation.
+ 3. Allow a user to choose the input/output method (raspberry pi embedded system or CLI). The whole program should be representable in both methods.
+ 4. Code tests, makefile, documentation, easy install and portability
 
 ## Running this program
 1. Download repo
