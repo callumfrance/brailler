@@ -38,11 +38,58 @@ class ViewBraille:
             delay = 1
         return(delay * self.disp_speed_delay)
 
+    def b_char_print(in_b_char):
+        """Prints a single braille character through the brailler device
+
+          - turn on all keys OR whitespace
+          - delay
+          - turn off all keys
+        """
+        isBlank = True
+
+        for i in in_b_char:
+            if i:
+                # self.br_out[i].on()
+                isBlank = False
+
+        if isBlank:
+            self._whitespace_macro(in_ws)
+
+        self._whitespace_macro(None)
+
+        for j in range(6):
+            # self.br_out[i].off()
+            pass
+
     def str_print(in_str):
-        pass
+        """Gets an input alphabetical string, converts to braille, and then
+        parses through the braille char printer
+
+        Callbacks may be triggered whilst this runs.
+
+          - Convert incoming string into Grade 2 Braille
+          - Iteratively print each character
+        """
+        # in_b_str = in_str.toBraille()
+        in_b_str = ''
+        for i in in_b_str:
+            curr = ""
+            self.b_char_print(i)
 
     def str_input(inputter):
-        pass
+        notEntered = False
+        b_in = [ False for i in range(6) ]
+        while notEntered:
+            for n, i in enumerate(self.br_in):
+                # This probably wont work but event handler...
+                i.when_pressed = lambda x: self.b_in[x] = not self.b_in[x]
+            # TODO add means of pressing space and enter
+            # TODO add means of terminating sequence (enter -> enter)
+        # TODO add means of converting into a list of BrailleCells
+        # TODO add way of converting all these BrailleCells into unicode
+        # TODO add way of turning this unicode string into alphabetical
+        # TODO return the alphabetical string
+        return(None)
 
 """ TODO:
 - Add callbacks for prev, next, and disp_speed

@@ -81,6 +81,10 @@ class Writer:
             tester = tester >> 1
         return(out_cell)
 
+    @staticmethod
+    def int2braille(in_int):
+        w = Writer()
+        return(w.binary_str2braille(w.int2binary_str(in_int)))
 
     @staticmethod
     def braille2int_b(in_cell):
@@ -104,3 +108,9 @@ class Writer:
     @staticmethod
     def braille2unicode(in_cell):
         return(chr(Writer.braille2int_uni(in_cell)))
+
+    @staticmethod
+    def unicode2braille(in_uni):
+        w = Writer()
+        x = 10240 - ord(in_uni)
+        return(w.int2braille(x))
