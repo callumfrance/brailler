@@ -5,19 +5,19 @@ class ViewBraille:
     
     def __init__(self, braille_pins=None):
         # TODO encapsulate all these variables in another class (BraillePins)
-        self.br_in = [ i for i in range(0, 6) ]
-        self.br_out = [ i for i in range(10, 16) ]
-        self.br_in_space = 7
-        self.enter = 30
-        self.prev = 31
-        self.next = 32
+        self.br_in = [ 2, 3, 4, 17, 27, 22 ]
+        self.br_out = [ 18, 23, 24, 25, 12, 16 ]
+        self.br_in_space = 5
+        self.in_enter = 6
+        self.prev = 13
+        self.next = 19
         # TODO prevent overlapping values for all the above variables
         self.disp_speed_delay = 500
         if braille_pins:
             self.br_in = braille_pins.br_in
             self.br_out = braille_pins.br_out
             self.br_in_space = braille_pins.br_in_space
-            self.enter = braille_pins.enter
+            self.in_enter = braille_pins.in_enter
             self.prev = braille_pins.prev
             self.next = braille_pins.next
             self.disp_speed_delay = braille_pins.disp_speed_delay
@@ -77,14 +77,60 @@ class ViewBraille:
             self.b_char_print(i)
 
     def str_input(inputter):
-        notEntered = False
         b_in = [ False for i in range(6) ]
+        notEntered = True
+        enter_count = 0
+
+        def toggle0():
+            b_in[0] = not b_in[0]
+        def toggle1():
+            b_in[1] = not b_in[1]
+        def toggle2():
+            b_in[2] = not b_in[2]
+        def toggle3():
+            b_in[3] = not b_in[3]
+        def toggle4():
+            b_in[4] = not b_in[4]
+        def toggle5():
+            b_in[5] = not b_in[5]
+        def inc_enter():
+            """Determines if an enter is submitting a character, a space,
+            or exiting
+
+            This is all untested
+            """
+            spaceEntered = True
+            if enter_count == 0:
+                # Save current b_in as a braille cell at this point
+                for i in b_in: # Check if whitespace or actual char
+                    if i is True:
+                        spaceEntered = False
+                        break
+                if spaceEntered:
+                    enter_count += 1
+            else:
+                for i in b_in: # Check if whitespace or actual char
+                    if i is True:
+                        spaceEntered = False
+                        break
+                if spaceEntered:
+                    # Two spaces --> exit typing here
+                    notEntered = False
+            b_in = [ False for i in range(6) ]
+
+        self.br_in[0].when_pressed = toggle0
+        self.br_in[1].when_pressed = toggle1
+        self.br_in[2].when_pressed = toggle2
+        self.br_in[3].when_pressed = toggle3
+        self.br_in[4].when_pressed = toggle4
+        self.br_in[5].when_pressed = toggle5
+
+        self.in_enter.when_pressed = inc_enter
+
         while notEntered:
-            for n, i in enumerate(self.br_in):
-                # This probably wont work but event handler...
-                i.when_pressed = lambda x: self.b_in[x] = not self.b_in[x]
-            # TODO add means of pressing space and enter
-            # TODO add means of terminating sequence (enter -> enter)
+            # wait for the pressing space and enter
+            # wait for the terminating sequence (in_enter -> in_enter)
+            pass
         # TODO add means of converting into a list of BrailleCells
         # TODO add way of converting all these BrailleCells into unicode
         # TODO add way of turning this unicode string into alphabetical

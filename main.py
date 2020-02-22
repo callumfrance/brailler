@@ -8,7 +8,7 @@ from os.path import isfile, isdir, join, normpath
 from re import search
 import magic
 
-from views.view import View
+from views.view_factory import ViewFactory
 from reader.read import Reader
 
 # TODO possible refactor into a database value or something
@@ -29,7 +29,7 @@ def setup():
         if not isdir(user_path):
             raise OSError("Could not create the user_path directory")
 
-    view = View()
+    view = ViewFactory().make_view()
 
 
 def teardown():

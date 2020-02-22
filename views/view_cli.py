@@ -1,31 +1,22 @@
-"""
-a view class
-"""
 
 
-view_types = ['CLI',]
+class ViewCLI:
 
-
-class View:
-
-
-    def __init__(self, view_type='CLI'):
-        self.view_type = view_type
 
     @staticmethod
     def option_select(in_options):
         """Given a list of strings, prints the list and waits for an integer in.
         """
-        View.str_print("")
+        ViewCLI.str_print("")
         for n, i in enumerate(in_options):
-            View.str_print(str(n) + " : " + i)
+            ViewCLI.str_print(str(n) + " : " + i)
         try:
-            ans = int(View.str_input("\n> "))
+            ans = int(ViewCLI.str_input("\n> "))
         except ValueError: # If an bad value was provided, exit with None
             ans = None
 
         if ans < 0 or ans > len(in_options):
-            ans = option_select(in_options)
+            ans = None
 
         return(ans)
 
@@ -36,8 +27,8 @@ class View:
         This is the most basic type of printing in this program.
         Replaces `print()`.
         """
-        # TODO filter off into the different printing types (i.e. self.view_type)
         print(in_str, end=ender)
+
 
     @staticmethod
     def str_input(inputter="\n> "):
@@ -52,3 +43,4 @@ class View:
         x = input(inputter)
         # TODO process a translation depending on the type of input received
         return(x)
+
