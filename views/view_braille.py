@@ -1,3 +1,11 @@
+import gpiozero
+
+###################################################
+## For testing code on a non raspberry pi device ##
+from gpiozero.pins.mock import MockFactory
+
+gpiozero.Device.pin_factory = MockFactory()
+###################################################
 
 
 class ViewBraille:
@@ -5,12 +13,18 @@ class ViewBraille:
     
     def __init__(self, braille_pins=None):
         # TODO encapsulate all these variables in another class (BraillePins)
-        self.br_in = [ 2, 3, 4, 17, 27, 22 ]
-        self.br_out = [ 18, 23, 24, 25, 12, 16 ]
-        self.br_in_space = 5
-        self.in_enter = 6
-        self.prev = 13
-        self.next = 19
+        self.br_in_pins = [ 2, 3, 4, 17, 27, 22 ]
+        self.br_out_pins = [ 18, 23, 24, 25, 12, 16 ]
+        self.br_in_space_pin = 5
+        self.in_enter_pin = 6
+        self.prev_pin= 13
+        self.next_pin = 19
+        self.br_in = [ gpiozero.Button(p) for p in self.br_in_pins ]
+        self.br_out = [ gpiozero.LED(p) for p in self.br_out_pins ]
+        self.br_in_space = gpiozero.Button(self.br_in_space_pin)
+        self.in_enter = gpiozero.Button(self.in_enter_pin)
+        self.prev = gpiozero.Button(self.prev_pin)
+        self.next = gpiozero.Button(self.next_pin)
         # TODO prevent overlapping values for all the above variables
         self.disp_speed_delay = 500
         if braille_pins:
@@ -76,7 +90,7 @@ class ViewBraille:
             curr = ""
             self.b_char_print(i)
 
-    def str_input(inputter):
+    def str_input(self, inputter):
         b_in = [ False for i in range(6) ]
         notEntered = True
         enter_count = 0
@@ -101,7 +115,7 @@ class ViewBraille:
             """
             spaceEntered = True
             if enter_count == 0:
-                # Save current b_in as a braille cell at this point
+                # TODO Save current b_in as a braille cell at this point
                 for i in b_in: # Check if whitespace or actual char
                     if i is True:
                         spaceEntered = False
@@ -136,6 +150,20 @@ class ViewBraille:
         # TODO add way of turning this unicode string into alphabetical
         # TODO return the alphabetical string
         return(None)
+
+    def option_select(self, in_options):
+        ViewBraille.str_print("")
+        for n, i in enumerate(in_options):
+            ViewBraille.str_print(str(n) + " : " + i)
+        try:
+            ans = int(ViewBraille.str_input(self, "\n> "))
+        except ValueError:
+            ans = None
+
+        if ans < 0 or ans > len(in_options):
+            ans = None
+
+        return(ans)
 
 """ TODO:
 - Add callbacks for prev, next, and disp_speed

@@ -5,10 +5,17 @@
 # 		/usr/lib/python3.8/site-packages
 #
 
-all:
+cli:
 	. venv/bin/activate; \
+	pip install -r requirements.txt; \
 	export PYTHONPATH="/usr/lib/python3.8/site-packages"; \
-	python main.py
+	python main.py CLIView
+
+braille:
+	. venv/bin/activate; \
+	pip install -r requirements.txt; \
+	export PYTHONPATH="/usr/lib/python3.8/site-packages"; \
+	python main.py BrailleView
 
 test:
 	. venv/bin/activate; \
@@ -22,4 +29,4 @@ coverage:
 	coverage html; \
 	xdg-open htmlcov/index.html
 
-.PHONY: test all coverage
+.PHONY: test cli braille coverage

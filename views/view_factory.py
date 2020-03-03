@@ -4,13 +4,13 @@
 from views.view_cli import ViewCLI
 from views.view_braille import ViewBraille
 
-view_types = ['CLI', 'Braille',]
+view_types = ['CLIView', 'BrailleView',]
 
 
 class ViewFactory:
 
 
-    def make_view(self, view_type='CLI'):
+    def make_view(self, view_type='CLIView'):
         view = None
         if view_type == view_types[0]:
             view = ViewCLI()
@@ -26,8 +26,8 @@ if __name__ == '__main__':
 
     v = ViewFactory()
 
-    c = v.make_view('CLI')
-    b = v.make_view('Braille')
+    c = v.make_view('CLIView')
+    b = v.make_view('BrailleView')
 
     print(c)
     print(b)

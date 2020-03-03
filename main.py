@@ -6,6 +6,7 @@ The input-independent means of controlling the brailler program
 from os import listdir
 from os.path import isfile, isdir, join, normpath
 from re import search
+from sys import argv
 import magic
 
 from views.view_factory import ViewFactory
@@ -15,7 +16,7 @@ from reader.read import Reader
 user_path = 'user'
 view = None
 
-def setup():
+def setup(viewtype="CLIView"):
     """Code that should only run once when the program is launched.
 
     Check the raspberry pi connections.
@@ -29,7 +30,7 @@ def setup():
         if not isdir(user_path):
             raise OSError("Could not create the user_path directory")
 
-    view = ViewFactory().make_view()
+    view = ViewFactory().make_view(viewtype)
 
 
 def teardown():
@@ -165,6 +166,17 @@ def main_loop():
 
 
 if __name__ == '__main__':
-    setup()
+    view_args = ['CLIView', 'BrailleView',]
+    print(len(argv))
+    print(str(argv))
+    if argv[1]:
+        if argv[1] == view_args[0]:
+            setup(argv[1])
+        elif argv[1] == view_args[1]:
+            setup(argv[1])
+        else:
+            raise ValueError("Invalid parameter passed from CLI")
+    else:
+        setup()
     main_loop()
     teardown()
