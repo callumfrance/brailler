@@ -3,7 +3,7 @@ Main
 
 The input-independent means of controlling the brailler program
 """
-from os import listdir
+from os import listdir, mkdir
 from os.path import isfile, isdir, join, normpath
 from re import search
 from sys import argv
@@ -26,7 +26,7 @@ def setup(viewtype="CLIView"):
     global view
 
     if not isdir(user_path): # Check that the user_path 'user' folder exists
-        os.mkdir(user_path)
+        mkdir(user_path)
         if not isdir(user_path):
             raise OSError("Could not create the user_path directory")
 

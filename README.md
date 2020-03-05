@@ -10,7 +10,8 @@
 ## Running this program
 1. Download repo
 2. Ways to run:
-    - `make all` runs the app in the console
+    - `make cli` runs the app in the console
+    - `make braille` runs the app in the braille mode (for use with the Raspberry Pi)
     - `make test` runs the pytest
     - `make coverage` runs the pytest and checks how much code has been tested
 
@@ -26,7 +27,7 @@
 	`echo "test" | lou_translate unicode.dis,en-gb-g1.utb`
 
 6. In terminal go to python folder `cd ~/Documents/LibLouis/liblouis-.../python`
-7. Install python binding with `sudo python setup.py install`
+7. Install python binding with `sudo python3 setup.py install`
 
 	The following python snippet should now work:
 

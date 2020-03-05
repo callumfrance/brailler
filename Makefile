@@ -5,26 +5,31 @@
 # 		/usr/lib/python3.8/site-packages
 #
 
+# For Linux PC: 
+# export PYTHONPATH="/usr/lib/python3.8/site-packages"; \
+# For Raspberry Pi Zero W: 
+# export PYTHONPATH="/usr/local/lib/python3.7/dist-packages"; \
+
 cli:
 	. venv/bin/activate; \
 	pip install -r requirements.txt; \
-	export PYTHONPATH="/usr/lib/python3.8/site-packages"; \
-	python main.py CLIView
+	export PYTHONPATH="/usr/local/lib/python3.7/dist-packages"; \
+	python3 main.py CLIView
 
 braille:
 	. venv/bin/activate; \
 	pip install -r requirements.txt; \
-	export PYTHONPATH="/usr/lib/python3.8/site-packages"; \
-	python main.py BrailleView
+	export PYTHONPATH="/usr/local/lib/python3.7/dist-packages"; \
+	python3 main.py BrailleView
 
 test:
 	. venv/bin/activate; \
-	export PYTHONPATH="/usr/lib/python3.8/site-packages"; \
-	python -m pytest
+	export PYTHONPATH="/usr/local/lib/python3.7/dist-packages"; \
+	python3 -m pytest
 
 coverage:
 	. venv/bin/activate; \
-	export PYTHONPATH="/usr/lib/python3.8/site-packages"; \
+	export PYTHONPATH="/usr/local/lib/python3.7/dist-packages"; \
 	coverage run -m pytest; \
 	coverage html; \
 	xdg-open htmlcov/index.html
