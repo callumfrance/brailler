@@ -6,30 +6,37 @@
 #
 
 # For Linux PC: 
-# export PYTHONPATH="/usr/lib/python3.8/site-packages"; \
+# export PYTHONPATH="/usr/lib/python3.8/site-packages"
 # For Raspberry Pi Zero W: 
-# export PYTHONPATH="/usr/local/lib/python3.7/dist-packages"; \
+# export PYTHONPATH="/usr/local/lib/python3.7/dist-packages"
+
+UNAME := $(shell uname)
+ifeq ($(UNAME), Linux)
+	PYPATH := PYTHONPATH="/usr/lib/python3.8/site-packages"
+else
+	PYPATH := export PYTHONPATH="/usr/local/lib/python3.7/dist-packages"
+endif
 
 cli:
 	. venv/bin/activate; \
 	pip install -r requirements.txt; \
-	export PYTHONPATH="/usr/local/lib/python3.7/dist-packages"; \
+	export $(PYPATH); \
 	python3 main.py CLIView
 
 braille:
 	. venv/bin/activate; \
 	pip install -r requirements.txt; \
-	export PYTHONPATH="/usr/local/lib/python3.7/dist-packages"; \
+	export $(PYPATH); \
 	python3 main.py BrailleView
 
 test:
 	. venv/bin/activate; \
-	export PYTHONPATH="/usr/local/lib/python3.7/dist-packages"; \
+	export $(PYPATH); \
 	python3 -m pytest
 
 coverage:
 	. venv/bin/activate; \
-	export PYTHONPATH="/usr/local/lib/python3.7/dist-packages"; \
+	export $(PYPATH); \
 	coverage run -m pytest; \
 	coverage html; \
 	xdg-open htmlcov/index.html
