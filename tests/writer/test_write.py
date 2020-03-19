@@ -74,6 +74,13 @@ def test_Writer_int2binary_str():
     with pytest.raises(ValueError):
         w.int2binary_str(-1)
 
+def test_Writer_int2braille():
+    eg1 = 32
+    ans_eg1 = braille_cell.BrailleCell([ False, False, False, False, False, True ])
+
+    w = write.Writer()
+    assert w.int2braille(eg1) == ans_eg1
+
 def test_Writer_braille2binary_str():
     eg1 = braille_cell.BrailleCell([ True, False, False, False, False, False ])
     ans_eg1 = "000001"
@@ -138,3 +145,17 @@ def test_Writer_braille2unicode():
     assert w.braille2unicode(eg8) == ans_eg8
     assert w.braille2unicode(eg9) == ans_eg9
 
+
+def test_Writer_unicode2braille():
+    eg1 = '⠁' # 1
+    eg2 = '⠴' # 19
+    eg3 = '⠀' # 0
+
+    ans_eg1 = braille_cell.BrailleCell([ True, False, False, False, False, False ])
+    ans_eg2 = braille_cell.BrailleCell([ False, False, True, False, True, True ])
+    ans_eg3 = braille_cell.BrailleCell([ False for i in range(6) ])
+
+    w = write.Writer()
+    assert w.unicode2braille(eg1) == ans_eg1
+    assert w.unicode2braille(eg2) == ans_eg2
+    assert w.unicode2braille(eg3) == ans_eg3

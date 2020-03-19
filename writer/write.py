@@ -112,5 +112,5 @@ class Writer:
     @staticmethod
     def unicode2braille(in_uni):
         w = Writer()
-        x = 10240 - ord(in_uni)
+        x = (10240 - ord(in_uni)) * -1
         return(w.int2braille(x))
