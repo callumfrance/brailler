@@ -1,4 +1,4 @@
-import brailler.writer.write as write
+import writer.write as write
 
 
 class BrailleCell:

@@ -1,10 +1,14 @@
 import gpiozero
+from time import sleep
+
+import reader.read as read
+import writer.write as write
 
 ###################################################
 ## For testing code on a non raspberry pi device ##
-from gpiozero.pins.mock import MockFactory
+# from gpiozero.pins.mock import MockFactory
 
-gpiozero.Device.pin_factory = MockFactory()
+# gpiozero.Device.pin_factory = MockFactory()
 ###################################################
 
 
@@ -26,7 +30,7 @@ class ViewBraille:
         self.prev = gpiozero.Button(self.prev_pin)
         self.next = gpiozero.Button(self.next_pin)
         # TODO prevent overlapping values for all the above variables
-        self.disp_speed_delay = 500
+        self.disp_speed_delay = 1.5 # "1 second"
         if braille_pins:
             self.br_in = braille_pins.br_in
             self.br_out = braille_pins.br_out
@@ -36,7 +40,7 @@ class ViewBraille:
             self.next = braille_pins.next
             self.disp_speed_delay = braille_pins.disp_speed_delay
 
-    def _whitespace_macro(in_ws=None):
+    def _whitespace_macro(self, in_ws=None):
         """Modulate a 'whitespace' pause length depending on the type of
         whitespace it is supposed to be representing.
         """
@@ -47,12 +51,12 @@ class ViewBraille:
         elif in_ws == '\n':
             delay = 2
         elif in_ws is None:
-            delay = 0.25
+            delay = 0.5
         else:
             delay = 1
-        return(delay * self.disp_speed_delay)
+        sleep(delay * self.disp_speed_delay * 1.0)
 
-    def b_char_print(in_b_char):
+    def b_char_print(self, in_b_char):
         """Prints a single braille character through the brailler device
 
           - turn on all keys OR whitespace
@@ -60,22 +64,26 @@ class ViewBraille:
           - turn off all keys
         """
         isBlank = True
+        
+        in_b_char = write.Writer.unicode2braille(in_b_char)
 
-        for i in in_b_char:
+        for n, i in enumerate(in_b_char.cell):
             if i:
-                # self.br_out[i].on()
+                self.br_out[n].on()
                 isBlank = False
 
         if isBlank:
-            self._whitespace_macro(in_ws)
+            self._whitespace_macro(i)
 
         self._whitespace_macro(None)
 
-        for j in range(6):
-            # self.br_out[i].off()
-            pass
+        for n, j in enumerate(range(6)):
+            self.br_out[n].off()
 
-    def str_print(in_str):
+        self._whitespace_macro(None)
+
+
+    def str_print(self, in_str):
         """Gets an input alphabetical string, converts to braille, and then
         parses through the braille char printer
 
@@ -84,11 +92,10 @@ class ViewBraille:
           - Convert incoming string into Grade 2 Braille
           - Iteratively print each character
         """
-        # in_b_str = in_str.toBraille()
-        in_b_str = ''
+        in_b_str = read.Reader.translate_item(in_str)
         for i in in_b_str:
-            curr = ""
             self.b_char_print(i)
+            print("done")
 
     def str_input(self, inputter):
         b_in = [ False for i in range(6) ]
@@ -152,11 +159,11 @@ class ViewBraille:
         return(None)
 
     def option_select(self, in_options):
-        ViewBraille.str_print("")
+        self.str_print("")
         for n, i in enumerate(in_options):
-            ViewBraille.str_print(str(n) + " : " + i)
+            self.str_print(str(n) + " : " + i)
         try:
-            ans = int(ViewBraille.str_input(self, "\n> "))
+            ans = int(self.str_input("\n> "))
         except ValueError:
             ans = None
 

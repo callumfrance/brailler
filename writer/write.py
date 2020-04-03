@@ -27,7 +27,7 @@ How to write from braille:
 
 """
 import writer.braille_cell as braille_cell
-import brailler.reader.read as read
+import reader.read as read
 
 
 class Writer:
