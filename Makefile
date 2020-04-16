@@ -33,6 +33,11 @@ braille:
 	export $(PYPATH); \
 	python3 main.py BrailleView
 
+fastbraille:
+	. venv/bin/activate; \
+	export $(PYPATH); \
+	python3 main.py BrailleView
+
 test:
 	. venv/bin/activate; \
 	export $(PYPATH); \
@@ -45,4 +50,4 @@ coverage:
 	coverage html; \
 	xdg-open htmlcov/index.html
 
-.PHONY: test cli braille coverage
+.PHONY: test cli braille fastbraille coverage

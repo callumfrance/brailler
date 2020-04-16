@@ -8,7 +8,7 @@ class BrailleCell:
         self.cell = in_cell
         self.isBlank = True
         self.isFull = False
-        blankFullCheck()
+        self.blankFullCheck()
 
     @property
     def cell(self):
@@ -27,11 +27,11 @@ class BrailleCell:
         """
         self.isBlank = True
         self.isFull = True
-        for i in self.cell():
+        for i in self.cell:
             if i:
                 self.isBlank = False
                 break
-        for i in self.cell():
+        for i in self.cell:
             if not i:
                 self.isFull = False
                 break

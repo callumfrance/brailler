@@ -69,6 +69,7 @@ class Writer:
         e.g. 5 --> "000101"
             (5 is '⠅')
         """
+        print("in_int is", str(in_int))
         if (in_int > 63) or (in_int < 0):
             raise ValueError("Braille integers must be from 0 to 63")
         out_cell = ""
@@ -84,6 +85,8 @@ class Writer:
     @staticmethod
     def int2braille(in_int):
         w = Writer()
+        print("int2braille in_int is ", str(in_int))
+        print("int2braille is ", str(w.binary_str2braille(w.int2binary_str(in_int))))
         return(w.binary_str2braille(w.int2binary_str(in_int)))
 
     @staticmethod
@@ -111,6 +114,7 @@ class Writer:
 
     @staticmethod
     def unicode2braille(in_uni):
+        print("unicode2braille ord is ", str(ord(in_uni)), " x is ", str((10240 - ord(in_uni)) * -1))
         w = Writer()
         x = (10240 - ord(in_uni)) * -1
         return(w.int2braille(x))
