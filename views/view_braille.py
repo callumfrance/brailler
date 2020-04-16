@@ -19,13 +19,11 @@ class ViewBraille:
         # TODO encapsulate all these variables in another class (BraillePins)
         self.br_in_pins = [ 2, 3, 4, 17, 27, 22 ]
         self.br_out_pins = [ 18, 23, 24, 25, 12, 16 ]
-        self.br_in_space_pin = 5
         self.in_enter_pin = 6
         self.prev_pin= 13
         self.next_pin = 19
         self.br_in = [ gpiozero.Button(p) for p in self.br_in_pins ]
         self.br_out = [ gpiozero.LED(p) for p in self.br_out_pins ]
-        self.br_in_space = gpiozero.Button(self.br_in_space_pin)
         self.in_enter = gpiozero.Button(self.in_enter_pin)
         self.prev = gpiozero.Button(self.prev_pin)
         self.next = gpiozero.Button(self.next_pin)
@@ -98,10 +96,17 @@ class ViewBraille:
             print("done")
 
     def str_input(self, inputter):
-        b_in = [ False for i in range(6) ]
-        notEntered = True
-        enter_count = 0
+        cells = list() # The cumulative inputted Braille characters from user
+        cellString = '' # The string unicode representation of inputted Braille
+        b_in = list() # The six button values
+        notBreakout = True
 
+        def reset_button_values():
+            b_in = [ False for i in range(6) ] # the initial button readings
+
+        reset_button_values() # Initialise the buttons to all be False
+
+        # Mini functions to update the button readings when pressed by user
         def toggle0():
             b_in[0] = not b_in[0]
         def toggle1():
@@ -114,49 +119,52 @@ class ViewBraille:
             b_in[4] = not b_in[4]
         def toggle5():
             b_in[5] = not b_in[5]
-        def inc_enter():
-            """Determines if an enter is submitting a character, a space,
-            or exiting
 
-            This is all untested
+        # Function to capture cell information and append to the cell input list
+        def char_input():
+            """Note that this may need to be altered because two sequential
+            spaces can indicate the start of a paragraph.
             """
-            spaceEntered = True
-            if enter_count == 0:
-                # TODO Save current b_in as a braille cell at this point
-                for i in b_in: # Check if whitespace or actual char
-                    if i is True:
-                        spaceEntered = False
-                        break
-                if spaceEntered:
-                    enter_count += 1
+            if cells[-1].isBlank: # Last entered cell was blank -> check breakout
+                if BrailleCell(b_in).isBlank: # Two consecutive blanks -> break
+                    notBreakout = False
+                    return
+            # Now established that we need to keep writing cells
+            x = BrailleCell(b_in)
+            if x.isFull: # Interpret a full cell as a strikethrough - delete prev
+                cells.pop(-1)
             else:
-                for i in b_in: # Check if whitespace or actual char
-                    if i is True:
-                        spaceEntered = False
-                        break
-                if spaceEntered:
-                    # Two spaces --> exit typing here
-                    notEntered = False
-            b_in = [ False for i in range(6) ]
+                cells.append(x)
+            # Flush button values
+            reset_button_values()
 
+        # Turn on the button behaviour now that we are reading user input
         self.br_in[0].when_pressed = toggle0
         self.br_in[1].when_pressed = toggle1
         self.br_in[2].when_pressed = toggle2
         self.br_in[3].when_pressed = toggle3
         self.br_in[4].when_pressed = toggle4
         self.br_in[5].when_pressed = toggle5
+        self.br_in_enter.when_pressed = char_input
 
-        self.in_enter.when_pressed = inc_enter
+        # Loop to capture the user's entire input until they write a breakout
+        while notBreakout:
+            pass # This is an intentional pass statement
 
-        while notEntered:
-            # wait for the pressing space and enter
-            # wait for the terminating sequence (in_enter -> in_enter)
-            pass
-        # TODO add means of converting into a list of BrailleCells
-        # TODO add way of converting all these BrailleCells into unicode
-        # TODO add way of turning this unicode string into alphabetical
-        # TODO return the alphabetical string
-        return(None)
+        # Turn off the button behaviour now that reading has completed
+        for i in range(6):
+            self.br_in[i].when_pressed = None
+        self.br_in_enter.when_pressed = None
+
+        # Get unicode of each BrailleCell in cells and squash into one string
+        for i in cells:
+            cellString += i.braille2unicode()
+
+        # Back_translate captured chars into English
+        output = read.Reader.back_translate_item(cellString)
+
+        # Return back_translated string
+        return(output)
 
     def option_select(self, in_options):
         self.str_print("")
