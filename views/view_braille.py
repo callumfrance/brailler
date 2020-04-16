@@ -37,6 +37,16 @@ class ViewBraille:
             self.prev = braille_pins.prev
             self.next = braille_pins.next
             self.disp_speed_delay = braille_pins.disp_speed_delay
+        self.debounce(0.25)
+
+    def debounce(self, db_time=0.25):
+        """ Adds the debouncer time delay to all input switches
+        """
+        for i in self.br_in:
+            i.bounce_time = db_time
+        self.in_enter.bounce_time = db_time
+        self.prev.bounce_time = db_time
+        self.next.bounce_time = db_time
 
     def _whitespace_macro(self, in_ws=None):
         """Modulate a 'whitespace' pause length depending on the type of
@@ -145,7 +155,7 @@ class ViewBraille:
         self.br_in[3].when_pressed = toggle3
         self.br_in[4].when_pressed = toggle4
         self.br_in[5].when_pressed = toggle5
-        self.br_in_enter.when_pressed = char_input
+        self.in_enter.when_pressed = char_input
 
         # Loop to capture the user's entire input until they write a breakout
         while notBreakout:
@@ -154,7 +164,7 @@ class ViewBraille:
         # Turn off the button behaviour now that reading has completed
         for i in range(6):
             self.br_in[i].when_pressed = None
-        self.br_in_enter.when_pressed = None
+        self.in_enter.when_pressed = None
 
         # Get unicode of each BrailleCell in cells and squash into one string
         for i in cells:
