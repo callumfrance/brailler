@@ -10,15 +10,13 @@
 # For Raspberry Pi Zero W: 
 # export PYTHONPATH="/usr/local/lib/python3.7/dist-packages"
 
-# uname -n --> raspberrypi
-
 UNAME := $(shell uname -n)
-ifeq ($(UNAME), Linux)
+ifeq ($(UNAME), callum-pc)
 	PYPATH := PYTHONPATH="/usr/lib/python3.8/site-packages"
 else ifeq ($(UNAME), raspberrypi)
 	PYPATH := export PYTHONPATH="/usr/local/lib/python3.7/dist-packages"
 else
-	echo $(UNAME)
+	$(info $(UNAME))
 endif
 
 cli:
