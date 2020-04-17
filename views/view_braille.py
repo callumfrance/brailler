@@ -82,7 +82,7 @@ class ViewBraille:
         self._whitespace_macro(None)
 
 
-    def str_print(self, in_str):
+    def str_print(self, in_str, ender="\n"):
         """Gets an input alphabetical string, converts to braille, and then
         parses through the braille char printer
 
@@ -95,7 +95,6 @@ class ViewBraille:
         in_b_str = read.Reader.translate_item(in_str)
         for i in in_b_str:
             self.b_char_print(i)
-            print("done")
 
     def str_input(self, inputter):
         cells = list() # The cumulative inputted Braille characters from user
@@ -138,8 +137,7 @@ class ViewBraille:
             """Note that this may need to be altered because two sequential
             spaces can indicate the start of a paragraph.
             """
-            print("Enter pressed: ")
-            print(str(b_in), len(cells))
+            print("\nEnter pressed")
             if len(cells) > 1:
                     print("Last cell isBlank: ", str(cells[-1].isBlank))
                     if cells[-1].isBlank: # Last entered cell was blank -> check breakout
@@ -150,13 +148,13 @@ class ViewBraille:
             # Now established that we need to keep writing cells
             x = BrailleCell(b_in)
             if x.isFull: # Interpret a full cell as a strikethrough - delete prev
+                print("\nStrikethrough found")
                 if len(cells) > 1:
                         cells.pop(-1)
             else:
                 cells.append(x)
             # Flush button values
             reset_button_values()
-            print("Flushed b_in is", str(b_in))
 
         # Turn on the button behaviour now that we are reading user input
         self.br_in[0].when_pressed = toggle0
