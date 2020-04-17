@@ -39,7 +39,7 @@ fastbraille:
 test:
 	. venv/bin/activate; \
 	export $(PYPATH); \
-	python3 -m pytest
+	python3 -m pytest -v
 
 coverage:
 	. venv/bin/activate; \
