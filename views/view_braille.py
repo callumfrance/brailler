@@ -114,21 +114,27 @@ class ViewBraille:
         # Mini functions to update the button readings when pressed by user
         def toggle0():
             b_in[0] = not b_in[0]
+            self.br_out[0].toggle()
             print(b_in)
         def toggle1():
             b_in[1] = not b_in[1]
+            self.br_out[1].toggle()
             print(b_in)
         def toggle2():
             b_in[2] = not b_in[2]
+            self.br_out[2].toggle()
             print(b_in)
         def toggle3():
             b_in[3] = not b_in[3]
+            self.br_out[3].toggle()
             print(b_in)
         def toggle4():
             b_in[4] = not b_in[4]
+            self.br_out[4].toggle()
             print(b_in)
         def toggle5():
             b_in[5] = not b_in[5]
+            self.br_out[5].toggle()
             print(b_in)
 
         # Function to capture cell information and append to the cell input list
@@ -138,6 +144,14 @@ class ViewBraille:
             spaces can indicate the start of a paragraph.
             """
             print("\nEnter pressed")
+            for i in range(6):
+                self.br_out[i].off()
+            # Pump out a flash to indicate enter pressed
+            for i in range(6):
+                self.br_out[i].on()
+            self._whitespace_macro(' ')
+            for i in range(6):
+                self.br_out[i].off()
             if len(cells) > 1:
                     print("Last cell isBlank: ", str(cells[-1].isBlank))
                     if cells[-1].isBlank: # Last entered cell was blank -> check breakout
