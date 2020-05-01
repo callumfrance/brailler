@@ -26,7 +26,8 @@ In the likely event you do not have a Braille controller, you can also use this 
 ## Installing LibLouis for Python
 
 #### Install LibLouis
-1. Ensure your device has the following packages using `apt` or equivalent
+1. Ensure your device has the following packages, using `apt` or equivalent installer:
+
 	`sudo apt-get install autoconf m4 libtool perl pkg-config`
 2. Clone (or download) the latest tarball from the LibLouis Github releases
 	```shell
@@ -41,7 +42,7 @@ In the likely event you do not have a Braille controller, you can also use this 
 	```shell
 	cd liblouis/
 	```
-4. In terminal run the following commands in order to install LibLouis
+4. In terminal run the following commands in order to install LibLouis:
 	```shell
 	sudo ./autogen.sh
 	sudo ./configure
@@ -50,10 +51,12 @@ In the likely event you do not have a Braille controller, you can also use this 
 	sudo /sbin/ldconfig -v
 	```
 6. The following command should now work in terminal:
+
 	`echo this is a test sentence | lou_translate unicode.dis,en-ueb-g2.ctb`
 
 #### Python setup for LibLouis
-1. Ensure your device has the following packages using `apt` or equivalent
+1. Ensure your device has the following packages, using `apt` or equivalent:
+
 	```shell
 	sudo apt install python3-distutils
 	```
@@ -72,7 +75,7 @@ In the likely event you do not have a Braille controller, you can also use this 
 		is found in liblouis.../python/__init__.py
 
 ## Installing this program
-1. Ensure your device has the following packages using `apt` or equivalent
+1. Ensure your device has the following packages using, `apt` or equivalent:
 	```shell
 	sudo apt install python3-pip python3-env
 	```
