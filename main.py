@@ -124,7 +124,7 @@ def menu_write_file(user_path='user'):
     only_files = [f for f in listdir(user_path) if isfile(join(user_path, f))]
     
     view.str_print("Enter a new file name to write to:")
-    new_file_name = view.str_input()
+    new_file_name = view.str_input().strip()
 
     # if new_file_name in only_files: # Removed file checking for demo purposes
     #     view.str_print("This file already exists")
