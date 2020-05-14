@@ -40,6 +40,8 @@ def teardown():
 
 
 def validate_file(in_file_name, user_path='user'):
+    """A valid file must be in the right folder and have the right mimetype
+    """
     if validate_directory(in_file_name, user_path) and \
             validate_file_type(in_file_name, user_path):
         return True
@@ -70,6 +72,8 @@ def validate_directory(in_file_name, user_path='user'):
 
 
 def validate_file_type(in_file_name, user_path='user'):
+    """Ensure requested file is actually a text file
+    """
     fileTypeValidate = False
     mime = magic.Magic(mime=True)
     view_select_type = mime.from_buffer(user_path + "/" + in_file_name)
@@ -113,32 +117,26 @@ def menu_read_file(user_path='user'):
 
 def menu_write_file(user_path='user'):
     """Allows user to create a file to write to within the user_path
-    """
-    options = ["No text translation", 
-        "US Braille translation", 
-        "UK Braille translation", 
-        "Decide once completed",]
 
+    Note that the 'options' has not been implemented here but in the future
+    would allow a user to specify the type of Braille they are writing in.
+    """
     only_files = [f for f in listdir(user_path) if isfile(join(user_path, f))]
     
     view.str_print("Enter a new file name to write to:")
-    new_file_name = view.str_input() # TODO handling of inner and outer folders....
+    new_file_name = view.str_input()
 
-    encoding = view.option_select(options)
-
-    if new_file_name in only_files:
-        view.str_print("This file already exists")
-    elif not validate_file(user_path + "/" + new_file_name):
+    # if new_file_name in only_files: # Removed file checking for demo purposes
+    #     view.str_print("This file already exists")
+    # elif not validate_file(user_path + "/" + new_file_name):
+    if not validate_file(user_path + "/" + new_file_name):
         view.str_print("Invalid file name provided")
     else:
         user_input = view.str_input()
-        if encoding == 3:
-            encoding = view.option_select(options)
-        if encoding == 1:
-            pass # TODO perform translations before write to file here
-        elif encoding == 2:
-            pass
-        with open(user_path + "/" + new_file_name, "x") as f:
+
+        # with open(user_path + "/" + new_file_name, "x") as f:
+        # For demo purposes, will overwrite an existing file
+        with open(user_path + "/" + new_file_name, "w") as f:
             f.write(user_input)
 
 

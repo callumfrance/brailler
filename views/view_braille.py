@@ -96,7 +96,7 @@ class ViewBraille:
         for i in in_b_str:
             self.b_char_print(i)
 
-    def str_input(self, inputter):
+    def str_input(self, inputter=None):
         cells = list() # The cumulative inputted Braille characters from user
         cellString = '' # The string unicode representation of inputted Braille
         # b_in = list() # The six button values
