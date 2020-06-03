@@ -1,3 +1,7 @@
+"""
+This is a test file to ensure that the pins being used on the
+Raspberry Pi are operational.
+"""
 from gpiozero import LED
 from time import sleep
 

@@ -1,4 +1,12 @@
+"""
+This is the ViewCLI class, used to interface this program via
+the console (e.g. terminal, commandline, or shell).
 
+This class can be used to demonstrate the functionality of the ViewBraille
+class on a computer via the shell.
+
+Despite being referred to as a 'view' it also includes support for input.
+"""
 
 class ViewCLI:
 

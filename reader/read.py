@@ -1,3 +1,11 @@
+"""
+This is the Reader class, which is responsible for directly interfacing
+with the Liblouis library functions.
+
+This class allows for the program to output Braille from English,
+and to turn input Braille into English to be interpreted by the wider
+program or to store in a text file.
+"""
 from louis import translateString, backTranslateString
 """
 Some possible tables:

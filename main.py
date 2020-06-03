@@ -1,7 +1,15 @@
 """
 Main
 
-The input-independent means of controlling the brailler program
+The input-independent means of controlling the brailler program.
+
+This file contains the loops for
+    - The entire program
+    - The read cycle
+    - The write cycle
+
+Depending on how the program was compiled, this file also instantiates the
+appropriate view (ViewBraille or ViewCLI).
 """
 from os import listdir, mkdir
 from os.path import isfile, isdir, join, normpath

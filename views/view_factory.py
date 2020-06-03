@@ -1,3 +1,6 @@
+"""
+This class determines what 
+"""
 # import views.view_cli as view_cli
 # import views.view_braille as view_braille
 

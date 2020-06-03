@@ -1,3 +1,8 @@
+"""
+This is an abstract class that can be used as the basis for the
+creation of new views. The only two views of the program - 
+ViewBraille and ViewCLI - are both inheritors of this class.
+"""
 import abc
 
 

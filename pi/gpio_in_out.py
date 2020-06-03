@@ -1,3 +1,7 @@
+"""
+This is a test file to ensure that the pins being used on the Raspberry Pi
+for both input and output are operational.
+"""
 import gpiozero
 
 pinout = [18, 23, 24, 25, 12, 16]

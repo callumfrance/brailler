@@ -1,3 +1,9 @@
+"""
+The BrailleCell class is used to represent a single Braille cell object.
+
+It provides tools so that it can check itself to see if it is blank,
+translate itself into the unicode format, and check equivalency.
+"""
 import writer.write as write
 
 

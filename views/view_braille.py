@@ -1,3 +1,12 @@
+"""
+This is the ViewBraille class, used to interface this program via a
+hardware device such as the Raspberry Pi Zero W or equivalent.
+
+The class seeks to replicate the same functionality as the ViewCLI class,
+but instead of displaying on the CLI, it displays on the GPIO pins.
+
+Despite being referred to as a 'view' it also includes support for input.
+"""
 import gpiozero
 from time import sleep
 
